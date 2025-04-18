@@ -1,0 +1,40 @@
+img {
+    width: 300px;
+    display: block;
+    margin: 100px auto auto;
+    transition: transform 2s;
+}
+
+#scale:hover {
+    transform: scale(1.5);
+}
+
+#rotate:hover {
+    transform: rotate(200grad);
+}
+
+#skew:hover {
+    transform: skew(20deg, 40deg);
+}
+
+#transform-origin {
+    transform-origin: top left;
+    /*transform-origin: 30% 80%;*/
+    /*transform-origin: 300px 150px;*/
+}
+#transform-origin:hover {
+    transform: rotate(45deg);
+}
+
+.container {
+    perspective: 1000px;
+    background-color: gray;
+}
+
+#rotate3d:hover {
+    transform: rotateX(60deg);
+}
+
+#translateZ:hover {
+    transform: translateZ(300px);
+}
