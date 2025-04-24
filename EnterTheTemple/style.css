@@ -1,0 +1,83 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.temple-gate {
+    position: relative;
+    height: 200vh;
+    background: linear-gradient(#d5c5a3, #fff9ed);
+}
+
+.guardians {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.guardian {
+    position: absolute;
+    bottom: 0;
+    height: 80vh;
+}
+
+.guardian.left {
+    left: -10%;
+}
+
+.guardian.right {
+    right: -10%;
+}
+
+.guardian.front {
+    z-index: 3;
+}
+.guardian.back {
+    z-index: 2;
+    bottom: 20%;
+}
+
+.guardian.left.back {
+    left: 0;
+}
+.guardian.right.back {
+    right: 0;
+}
+
+.temple-hill {
+    width: 100%;
+    height: 100vh;
+    background: darkgreen;
+    position: absolute;
+    z-index: 5;
+    bottom: 0;
+    clip-path: circle(150px at 0 0);
+}
+
+.temple {
+    position: relative;
+    height: 100vh;
+    background: linear-gradient(#fff9ed, #d5c5a3);
+}
+.temple img {
+    position: absolute;
+    background: transparent;
+    width: 400px;
+    height: 500px;
+    /*opacity: 0.1;*/
+    top: 50%;
+    left: 50%;
+    /*transform: translate(-50%, -50%) scale(0.5);*/
+    transform: translate(-50%, -50%);
+    /*transform-origin: center;*/
+    /*transition: 4s;*/
+    /*transition-delay: 1s;*/
+}
+
+/*.temple.active img {*/
+/*    opacity: 1;*/
+/*    transform: translate(-50%, -50%) scale(1);*/
+/*}*/
