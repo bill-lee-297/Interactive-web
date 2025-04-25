@@ -99,5 +99,5 @@ p.animate {
 }
 
 .sec5 img:nth-child(2) {
-transition-delay: 0.4s;
+    transition-delay: 0.4s;
 }

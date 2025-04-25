@@ -25,11 +25,11 @@
 }
 
 .guardian.left {
-    left: -10%;
+    left: 0;
 }
 
 .guardian.right {
-    right: -10%;
+    right: 0;
 }
 
 .guardian.front {
@@ -37,47 +37,31 @@
 }
 .guardian.back {
     z-index: 2;
-    bottom: 20%;
+    bottom: 15%;
 }
 
 .guardian.left.back {
-    left: 0;
+    left: 10%;
 }
 .guardian.right.back {
-    right: 0;
-}
-
-.temple-hill {
-    width: 100%;
-    height: 100vh;
-    background: darkgreen;
-    position: absolute;
-    z-index: 5;
-    bottom: 0;
-    clip-path: circle(150px at 0 0);
+    right: 10%;
 }
 
 .temple {
     position: relative;
+    width: 100%;
     height: 100vh;
-    background: linear-gradient(#fff9ed, #d5c5a3);
 }
+
 .temple img {
     position: absolute;
     background: transparent;
-    width: 400px;
-    height: 500px;
-    /*opacity: 0.1;*/
+    width: 600px;
+    height: 700px;
+    scale: 0;
+    opacity: 0;
     top: 50%;
     left: 50%;
-    /*transform: translate(-50%, -50%) scale(0.5);*/
     transform: translate(-50%, -50%);
-    /*transform-origin: center;*/
-    /*transition: 4s;*/
-    /*transition-delay: 1s;*/
+    transform-origin: left bottom;
 }
-
-/*.temple.active img {*/
-/*    opacity: 1;*/
-/*    transform: translate(-50%, -50%) scale(1);*/
-/*}*/
