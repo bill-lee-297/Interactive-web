@@ -1,0 +1,23 @@
+body{
+  background: black;
+  font-weight: bold;
+}
+
+ul{
+  font-size: 30px;
+  color: gray;
+}
+li{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dash{
+  width: 15px;
+  height: 4px;
+  background: #3e3e3e;
+  margin-right: 10px;
+  opacity:0;
+}
+
