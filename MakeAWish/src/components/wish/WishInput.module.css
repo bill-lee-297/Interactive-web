@@ -1,0 +1,94 @@
+.wishCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.wishTitle {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 2px 8px #222;
+}
+
+.wishInput {
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  width: 320px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  background: rgba(255, 255, 255, 0.18);
+  color: white;
+  backdrop-filter: blur(2px);
+  margin-bottom: 1.5rem;
+}
+
+.wishInput::placeholder {
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.wishBtn {
+  padding: 0.8rem 2.5rem;
+  border-radius: 2rem;
+  border: none;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.22);
+  color: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(2px);
+}
+
+.wishBtn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  color: #232946;
+  transform: scale(1.04);
+}
+
+.wishBtn:active {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  transform: scale(0.98);
+}
+
+.wishResultWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wishResult {
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+  text-shadow: 0 2px 8px #222;
+  max-width: 500px;
+  word-break: keep-all;
+  line-height: 1.5;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.wishMessage {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 2rem;
+  margin-top: 1rem;
+  text-align: center;
+  text-shadow: 0 2px 8px #222;
+  opacity: 0;
+  transform: translateY(20px);
+}
