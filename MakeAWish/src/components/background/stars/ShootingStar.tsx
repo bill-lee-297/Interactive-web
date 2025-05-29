@@ -7,6 +7,9 @@ interface ShootingStarProps {
 }
 
 const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
+const convertPercentageToPixels = (percentage: number, viewport: 'width' | 'height') => {
+  return percentage * (viewport === 'width' ? window.innerWidth : window.innerHeight) / 100;
+}
 
 const ShootingStar: React.FC<ShootingStarProps> = ({ isActive }) => {
   const starRef = useRef<HTMLDivElement>(null);
@@ -14,23 +17,15 @@ const ShootingStar: React.FC<ShootingStarProps> = ({ isActive }) => {
   useEffect(() => {
     if(!isActive) return;
 
-    const startX = getRandom(75, 85); // 시작 x
-    const startY = getRandom(15, 25); // 시작 y
-    const endX = getRandom(20, 30); // 끝 x
-    const endY = getRandom(50, 60); // 끝 y
+    const startX = convertPercentageToPixels(getRandom(75, 85), 'width'); // 시작 x
+    const startY = convertPercentageToPixels(getRandom(15, 25), 'height'); // 시작 y
+    const endX = convertPercentageToPixels(getRandom(20, 30), 'width'); // 끝 x
+    const endY = convertPercentageToPixels(getRandom(50, 60), 'height'); // 끝 y
 
     const duration = 2;
 
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
-
-    const startXPx = (startX / 100) * viewportWidth;
-    const startYPx = (startY / 100) * viewportHeight;
-    const endXPx = (endX / 100) * viewportWidth;
-    const endYPx = (endY / 100) * viewportHeight;
-
-    const dy = endYPx - startYPx;
-    const dx = endXPx - startXPx;
+    const dy = endY - startY;
+    const dx = endX - startX;
     const angleRadians = Math.atan2(dy, dx)
 
     const angleDegrees = (angleRadians * 180 / Math.PI)+180;
@@ -39,14 +34,14 @@ const ShootingStar: React.FC<ShootingStarProps> = ({ isActive }) => {
       gsap.fromTo(
         starRef.current,
         {
-          left: `${startX}%`,
-          top: `${startY}%`,
+          left: startX,
+          top: startY,
           opacity: 1,
           rotate: angleDegrees,
         },
         {
-          left: `${endX}%`,
-          top: `${endY}%`,
+          left: endX,
+          top: endY,
           opacity: 0,
           duration,
           ease: 'none',

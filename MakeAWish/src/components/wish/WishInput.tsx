@@ -2,17 +2,20 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import styles from './WishInput.module.css';
 import gsap from 'gsap';
 import ShootingStar from '../background/stars/ShootingStar';
+import { IoRefreshSharp } from 'react-icons/io5';
 
 const WishInput = () => {
   const wishTextRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLDivElement>(null);
   const wishInputRef = useRef<HTMLInputElement>(null);
   const wishBtnRef = useRef<HTMLButtonElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [wish, setWish] = useState('');
   const [showWish, setShowWish] = useState(false);
   const [showShootingStar, setShowShootingStar] = useState(false);
+  const [showButtons, setShowButtons] = useState(false);
 
   useLayoutEffect(() => {
     const inputTl = gsap.timeline();
@@ -39,7 +42,6 @@ const WishInput = () => {
       delay: 3
     });
     
-
     if (wishTextRef.current) {
       showTl.fromTo(wishTextRef.current, 
         { opacity: 0, scale: 0.8, y: 100 }, 
@@ -64,12 +66,25 @@ const WishInput = () => {
       duration: 1,
       ease: 'circ.out',
     }, "<")
+    showTl.to(buttonsRef.current, {
+      opacity: 1,
+      duration: 1,
+      ease: 'power1.out',
+      onStart: () => setShowButtons(true)
+    });
   }, [showWish]);
 
   const handleButtonClick = () => {
     if (wish.trim() === '') return;
     setShowWish(true);
     setShowShootingStar(true);
+  };
+
+  const handleRestart = () => {
+    setShowWish(false);
+    setShowShootingStar(false);
+    setShowButtons(false);
+    setWish('');
   };
 
   return (
@@ -95,7 +110,7 @@ const WishInput = () => {
           </button>
         </>
       )}
-      {showWish && (
+      {showWish && !showButtons && (
         <div className={styles.wishResultWrap}>
           <div ref={wishTextRef} className={styles.wishResult}>
             {wish}
@@ -105,6 +120,18 @@ const WishInput = () => {
           </div>
         </div>
       )}
+      <div ref={buttonsRef} className={styles.actionButtons} style={{ opacity: 0 }}>
+        {showButtons && (
+          <>
+            <button className={styles.actionButton} onClick={handleRestart}>
+              <IoRefreshSharp size={24} />
+            </button>
+            <button className={styles.actionButton}>
+              다른 사람의 소원 보기
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
