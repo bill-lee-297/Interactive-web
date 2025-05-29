@@ -3,6 +3,8 @@ import styles from './WishInput.module.css';
 import gsap from 'gsap';
 import ShootingStar from '../background/stars/ShootingStar';
 import { IoRefreshSharp } from 'react-icons/io5';
+import { saveWish } from '../../firebase/wishes';
+import WishList from './WishList';
 
 const WishInput = () => {
   const wishTextRef = useRef<HTMLDivElement>(null);
@@ -10,12 +12,14 @@ const WishInput = () => {
   const wishInputRef = useRef<HTMLInputElement>(null);
   const wishBtnRef = useRef<HTMLButtonElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
+  const showWishListBtnRef = useRef<HTMLButtonElement>(null);
 
   const [isFocused, setIsFocused] = useState(false);
   const [wish, setWish] = useState('');
   const [showWish, setShowWish] = useState(false);
   const [showShootingStar, setShowShootingStar] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
+  const [showWishList, setShowWishList] = useState(false);
 
   useLayoutEffect(() => {
     const inputTl = gsap.timeline();
@@ -74,10 +78,17 @@ const WishInput = () => {
     });
   }, [showWish]);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (wish.trim() === '') return;
-    setShowWish(true);
-    setShowShootingStar(true);
+    
+    try {
+      await saveWish(wish.trim());
+      setShowWish(true);
+      setShowShootingStar(true);
+    } catch (error) {
+      console.error('소원 저장 중 오류 발생:', error);
+      alert('소원을 저장하는 중 오류가 발생했습니다.');
+    }
   };
 
   const handleRestart = () => {
@@ -85,7 +96,20 @@ const WishInput = () => {
     setShowShootingStar(false);
     setShowButtons(false);
     setWish('');
+    setShowWishList(false);
   };
+
+  const handleViewOtherWishes = () => {
+    if (showWishListBtnRef.current) {
+      showWishListBtnRef.current.style.display = 'none';
+    }
+    setShowWishList(true);
+  };
+
+  useEffect(() => {
+    console.log(showWishList);
+    
+  }, [showWishList])
 
   return (
     <div className={styles.wishCenter}>
@@ -120,13 +144,22 @@ const WishInput = () => {
           </div>
         </div>
       )}
+
+      {showWishList && (
+        <WishList showWishList={showWishList} />
+      )}
+
       <div ref={buttonsRef} className={styles.actionButtons} style={{ opacity: 0 }}>
         {showButtons && (
           <>
             <button className={styles.actionButton} onClick={handleRestart}>
               <IoRefreshSharp size={24} />
             </button>
-            <button className={styles.actionButton}>
+            <button 
+              ref={showWishListBtnRef}
+              className={styles.actionButton}
+              onClick={handleViewOtherWishes}
+            >
               다른 사람의 소원 보기
             </button>
           </>
