@@ -2,6 +2,7 @@ import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import styles from './WishInput.module.css';
 import gsap from 'gsap';
 import ShootingStar from '../background/stars/ShootingStar';
+import { IoIosSend } from "react-icons/io";
 import { IoRefreshSharp } from 'react-icons/io5';
 import { saveWish } from '../../firebase/wishes';
 import WishList from './WishList';
@@ -9,35 +10,55 @@ import WishList from './WishList';
 const WishInput = () => {
   const wishTextRef = useRef<HTMLDivElement>(null);
   const messageRef = useRef<HTMLDivElement>(null);
+  const wishInputContainerRef = useRef<HTMLDivElement>(null);
   const wishInputRef = useRef<HTMLInputElement>(null);
   const wishBtnRef = useRef<HTMLButtonElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const showWishListBtnRef = useRef<HTMLButtonElement>(null);
 
-  const [isFocused, setIsFocused] = useState(false);
   const [wish, setWish] = useState('');
   const [showWish, setShowWish] = useState(false);
   const [showShootingStar, setShowShootingStar] = useState(false);
   const [showButtons, setShowButtons] = useState(false);
   const [showWishList, setShowWishList] = useState(false);
+  const [isSecret, setIsSecret] = useState(false);
+
+  useEffect(() => {
+    if (wishInputRef.current) {
+      wishInputRef.current.focus();
+    }
+  }, []);
 
   useLayoutEffect(() => {
-    const inputTl = gsap.timeline();
-    if (wishInputRef.current) {
-      inputTl.fromTo(
-        wishInputRef.current,
-        { opacity: 0, y: 50, scale: 0.4 },
-        { opacity: 1, y: 0, scale: 1, duration: 2, ease: 'power1.out' }
-      );
+    if(wishInputContainerRef.current) {
+      gsap.fromTo(wishInputContainerRef.current, {
+        opacity: 0,
+        y: 100,
+        scale: 0.9
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.5,
+        ease: 'power1.inOut'
+      });
     }
-    if (wishBtnRef.current) {
-      inputTl.fromTo(
-        wishBtnRef.current,
-        { opacity: 0, y: 50, scale: 0.4 },
-        { opacity: 1, y: 0, scale: 1, duration: 2, ease: 'power1.out' },
-        '-=1.5'
-      );
-    }
+  //   const inputTl = gsap.timeline();
+  //   if (wishInputRef.current) {
+  //     inputTl.fromTo(
+  //       wishInputRef.current,
+  //       { opacity: 0, y: 50, scale: 0.4 },
+  //       { opacity: 1, y: 0, scale: 1, duration: 2, ease: 'power1.out' }
+  //     );
+  //   }
+  //   if (wishBtnRef.current) {
+  //     inputTl.fromTo(
+  //       wishBtnRef.current,
+  //       { opacity: 0, y: 50, scale: 0.4 },
+  //       { opacity: 1, y: 0, scale: 1, duration: 2, ease: 'power1.out' },
+  //       '-=1.5'
+  //     );
+  //   }
   }, []);
 
   useEffect(() => {
@@ -82,7 +103,9 @@ const WishInput = () => {
     if (wish.trim() === '') return;
     
     try {
-      await saveWish(wish.trim());
+      if (!isSecret) {
+        await saveWish(wish.trim());
+      }
       setShowWish(true);
       setShowShootingStar(true);
     } catch (error) {
@@ -106,33 +129,45 @@ const WishInput = () => {
     setShowWishList(true);
   };
 
-  useEffect(() => {
-    console.log(showWishList);
-    
-  }, [showWishList])
-
   return (
     <div className={styles.wishCenter}>
       {showShootingStar && <ShootingStar isActive={showShootingStar} />}
       {!showWish && (
-        <>
-          <input
-            ref={wishInputRef}
-            type="text"
-            placeholder={isFocused ? '' : '너의 소원을 알려줘'}
-            className={styles.wishInput}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            value={wish}
-            onChange={(e) => setWish(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleButtonClick();
-            }}
-          />
-          <button ref={wishBtnRef} className={styles.wishBtn} onClick={handleButtonClick}>
-            보내기
-          </button>
-        </>
+        <div ref={wishInputContainerRef} className={styles.wishInputContainer}>
+          <div className={styles.wishInputWrap}>
+            <div className={styles.wishInputTitle}>
+              나의 소원은
+            </div>
+            <input
+              ref={wishInputRef}
+              type="text"
+              className={styles.wishInput}
+              value={wish}
+              onChange={(e) => setWish(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleButtonClick();
+              }}
+            />
+            <div className={styles.wishInputTitle}>
+              이야.
+            </div>
+            {/* <button ref={wishBtnRef} className={styles.wishBtn} onClick={handleButtonClick}>
+              <IoIosSend size={24} />
+            </button> */}
+          </div>
+          <div className={styles.checkboxContainer}>
+            <input
+              type="checkbox"
+              id="secretWish"
+              checked={isSecret}
+              onChange={(e) => setIsSecret(e.target.checked)}
+              className={styles.checkbox}
+            />
+            <label htmlFor="secretWish" className={styles.checkboxLabel}>
+              소원을 비밀로 해줘
+            </label>
+          </div>
+        </div>
       )}
       {showWish && !showButtons && (
         <div className={styles.wishResultWrap}>

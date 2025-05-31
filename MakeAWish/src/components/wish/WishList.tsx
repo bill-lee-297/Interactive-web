@@ -28,8 +28,6 @@ const WishList = ({ showWishList }: {showWishList: boolean}) => {
     const showWish = () => {
       if (!wishRef.current) return;
 
-      // 랜덤한 위치 계산 (화면의 20%~80% 범위 내)
-      // x가 35 ~ 65이면서 y가 35 ~ 55 경우 다른 위치로 다시 계산
       let x = Math.random() * 60 + 20;
       let y = Math.random() * 40 + 20;
       while (x > 35 && x < 65 && y > 35 && y < 55) {
@@ -37,7 +35,6 @@ const WishList = ({ showWishList }: {showWishList: boolean}) => {
         y = Math.random() * 40 + 20;
       }
 
-      // 초기 상태 설정
       gsap.set(wishRef.current, {
         x: `${x}vw`,
         y: `${y}vh`,
@@ -68,7 +65,6 @@ const WishList = ({ showWishList }: {showWishList: boolean}) => {
     showWish();
   }, [wishes, currentWishIndex]);
 
-  // 컴포넌트가 언마운트될 때만 wishes를 초기화
   useEffect(() => {
     return () => {
       setWishes([]);

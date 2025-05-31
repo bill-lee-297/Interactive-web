@@ -25,7 +25,7 @@ export const subscribeToWishes = (
   const recentWishesQuery = query(
     wishesRef,
     orderByChild('createdAt'),
-    limitToLast(10)
+    limitToLast(50)
   );
   
   const unsubscribe = onValue(recentWishesQuery, (snapshot) => {
