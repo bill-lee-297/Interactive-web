@@ -1,0 +1,10 @@
+.grid {
+  column-count: 5;
+}
+
+.gid-item {
+  display: inline-block;
+  width: 100%;
+  break-inside: avoid;
+  margin-bottom: 20px;
+}
